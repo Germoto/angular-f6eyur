@@ -9,7 +9,7 @@
       <mat-checkbox
         class="checklist-leaf-node"
         [checked]="checklistSelection.isSelected(node)"
-        (change)="todoLeafItemSelectionToggle(node)"
+        (change)="todoLeafItemSelectionToggle(node,$event)"
         >{{node.item}}</mat-checkbox
       >
     </mat-tree-node>

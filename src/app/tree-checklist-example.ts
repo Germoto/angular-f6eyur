@@ -12,7 +12,7 @@ import { BehaviorSubject } from 'rxjs';
  */
 export class TodoItemNode {
   children: TodoItemNode[];
-  item: string;
+  items: string;
 }
 
 /** Flat to-do item node with expandable and level information */
@@ -75,13 +75,13 @@ export class ChecklistDatabase {
     return Object.keys(obj).reduce<TodoItemNode[]>((accumulator, key) => {
       const value = obj[key];
       const node = new TodoItemNode();
-      node.item = key;
+      node.items = key;
 
       if (value != null) {
         if (typeof value === 'object') {
           node.children = this.buildFileTree(value, level + 1);
         } else {
-          node.item = value;
+          node.items = value;
         }
       }
 
@@ -92,13 +92,13 @@ export class ChecklistDatabase {
   /** Add an item to to-do list */
   insertItem(parent: TodoItemNode, name: string) {
     if (parent.children) {
-      parent.children.push({ item: name } as TodoItemNode);
+      parent.children.push({ items: name } as TodoItemNode);
       this.dataChange.next(this.data);
     }
   }
 
   updateItem(node: TodoItemNode, name: string) {
-    node.item = name;
+    node.items = name;
     this.dataChange.next(this.data);
   }
 }
@@ -177,10 +177,10 @@ export class TreeChecklistExample {
   transformer = (node: TodoItemNode, level: number) => {
     const existingNode = this.nestedNodeMap.get(node);
     const flatNode =
-      existingNode && existingNode.item === node.item
+      existingNode && existingNode.item === node.items
         ? existingNode
         : new TodoItemFlatNode();
-    flatNode.item = node.item;
+    flatNode.item = node.items;
     flatNode.level = level;
     flatNode.expandable = !!node.children?.length;
     this.flatNodeMap.set(flatNode, node);
@@ -222,9 +222,11 @@ export class TreeChecklistExample {
   }
 
   /** Toggle a leaf to-do item selection. Check all the parents to see if they changed */
-  todoLeafItemSelectionToggle(node: TodoItemFlatNode): void {
+  todoLeafItemSelectionToggle(node: TodoItemFlatNode, event: any): void {
     this.listItems = node;
+    let checked: boolean = event.checked;
     console.log('this.listItems', this.listItems);
+    console.log('checked', event);
     this.checklistSelection.toggle(node);
     this.checkAllParentsSelection(node);
   }
