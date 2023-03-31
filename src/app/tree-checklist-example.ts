@@ -26,6 +26,9 @@ export class TodoItemFlatNode {
  * The Json object for to-do list data.
  */
 const TREE_DATA = {
+  'ACCESORIO COMPUTADORA': ['MOUSE', 'TECLADO'],
+  'Lisencia Antivirus NOD32 203': [],
+
   // Groceries: {
   //   'Almond Meal flour': null,
   //   'Organic eggs': null,
@@ -36,16 +39,6 @@ const TREE_DATA = {
   //     Orange: null,
   //   },
   // },
-  ACCESORIO_COMPUTADORA: [
-    'Cook dinner',
-    'Read the Material Design spec',
-    'Upgrade Application to Angular',
-  ],
-  Reminders2: [
-    'Cook dinner',
-    'Read the Material Design spec',
-    'Upgrade Application to Angular',
-  ],
 };
 
 /**
