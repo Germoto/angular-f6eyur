@@ -113,6 +113,7 @@ export class ChecklistDatabase {
   providers: [ChecklistDatabase],
 })
 export class TreeChecklistExample {
+  listItems!: any;
   /** Map from flat node to nested node. This helps us finding the nested node to be modified */
   flatNodeMap = new Map<TodoItemFlatNode, TodoItemNode>();
 
@@ -137,6 +138,8 @@ export class TreeChecklistExample {
   );
 
   constructor(private _database: ChecklistDatabase) {
+    this.listItems = TREE_DATA;
+    console.log('listItems 1', this.listItems);
     this.treeFlattener = new MatTreeFlattener(
       this.transformer,
       this.getLevel,
@@ -220,6 +223,8 @@ export class TreeChecklistExample {
 
   /** Toggle a leaf to-do item selection. Check all the parents to see if they changed */
   todoLeafItemSelectionToggle(node: TodoItemFlatNode): void {
+    this.listItems = node;
+    console.log('this.listItems', this.listItems);
     this.checklistSelection.toggle(node);
     this.checkAllParentsSelection(node);
   }
@@ -280,6 +285,10 @@ export class TreeChecklistExample {
   saveNode(node: TodoItemFlatNode, itemValue: string) {
     const nestedNode = this.flatNodeMap.get(node);
     this._database.updateItem(nestedNode!, itemValue);
+  }
+
+  obtenerJson() {
+    console.log('listItems 2', this.listItems);
   }
 }
 
